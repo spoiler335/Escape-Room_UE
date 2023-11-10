@@ -1,0 +1,58 @@
+[
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Escape_Room.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Escape_Room.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Escape_Room.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Escape_RoomGameModeBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Escape_RoomGameModeBase.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Sample.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\Source\\Escape_Room\\Sample.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+			"@C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room\\Escape_Room.255.rsp"
+		],
+		"directory": "C:\\UE_5.1\\Engine\\Source"
+	}
+]

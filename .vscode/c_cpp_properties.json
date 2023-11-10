@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Escape_RoomEditor Editor Win64 Development (Escape_Room)",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Escape_Room.json"
+        },
+        {
+            "name": "Win32",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.33.31629\\bin\\HostX64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\susha\\OneDrive\\Desktop\\Escape_Room\\.vscode\\compileCommands_Default.json"
+        }
+    ],
+    "version": 4
+}
