@@ -10,8 +10,8 @@ UCLASS()
 class ESCAPE_ROOM_API ASample : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ASample();
 
@@ -19,8 +19,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+	UPROPERTY(VisibleAnywhere)
+	class USceneComponent *Root;
+	UPROPERTY(EditAnywhere)
+	float Speed;
 };
+
