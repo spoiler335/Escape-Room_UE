@@ -7,6 +7,7 @@ ACharacterController::ACharacterController()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -44,7 +45,7 @@ void ACharacterController::BeginPlay()
 void ACharacterController::MoveForward(float value)
 {
 	FRotator rotation = Controller->GetControlRotation();
-	FRotator yawRotation = FRotator(0.f, rotation.Yaw, 0.f);
+	FRotator yawRotation(0.f, rotation.Yaw, 0.f);
 	FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
 
 	AddMovementInput(direction, value);
@@ -53,22 +54,23 @@ void ACharacterController::MoveForward(float value)
 void ACharacterController::MoveRight(float value)
 {
 	FRotator rotation = Controller->GetControlRotation();
-	FRotator yawRotation = FRotator(0.f, rotation.Yaw, 0.f);
+	FRotator yawRotation(0.f, rotation.Yaw, 0.f);
 
 	FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::Y);
 
 	AddMovementInput(direction, value);
 }
 
-void ACharacterController::LookUp(float value)
+void ACharacterController::StartSprint()
 {
-
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 }
 
-void ACharacterController::Turn(float value)
+void ACharacterController::StopSprint()
 {
-
+	GetCharacterMovement()->MaxWalkSpeed = 300.f;
 }
+
 
 // Called every frame
 void ACharacterController::Tick(float DeltaTime)
@@ -86,4 +88,6 @@ void ACharacterController::SetupPlayerInputComponent(UInputComponent *PlayerInpu
 	PlayerInputComponent->BindAxis("Turn", this, &ACharacterController::AddControllerYawInput);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacterController::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacterController::StopJumping);
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ACharacterController::StartSprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ACharacterController::StopSprint);
 }

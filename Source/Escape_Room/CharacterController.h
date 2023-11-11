@@ -41,6 +41,6 @@ private:
 	void SetFollowCamera();
 	void MoveForward(float value);
 	void MoveRight(float value);
-	void LookUp(float value);
-	void Turn(float value);
+	void StartSprint();
+	void StopSprint();
 };
