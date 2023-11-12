@@ -8,6 +8,13 @@ ACharacterController::ACharacterController()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SetCharacterMovementParaMeters();
+	SetCameraBoom();
+	SetFollowCamera();
+}
+
+void ACharacterController::SetCharacterMovementParaMeters()
+{
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -16,9 +23,6 @@ ACharacterController::ACharacterController()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 540.f, 0.f);
 	GetCharacterMovement()->JumpZVelocity = 300.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-
-	SetCameraBoom();
-	SetFollowCamera();
 }
 
 void ACharacterController::SetCameraBoom()
@@ -40,6 +44,7 @@ void ACharacterController::SetFollowCamera()
 void ACharacterController::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = 300.f;
 }
 
 void ACharacterController::MoveForward(float value)
@@ -70,7 +75,6 @@ void ACharacterController::StopSprint()
 {
 	GetCharacterMovement()->MaxWalkSpeed = 300.f;
 }
-
 
 // Called every frame
 void ACharacterController::Tick(float DeltaTime)

@@ -37,6 +37,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
 private:
+	void SetCharacterMovementParaMeters();
 	void SetCameraBoom();
 	void SetFollowCamera();
 	void MoveForward(float value);
