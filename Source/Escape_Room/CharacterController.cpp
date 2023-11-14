@@ -1,13 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "CharacterController.h"
+#include "PlayerData.h"
 
 // Sets default values
 ACharacterController::ACharacterController()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	nameText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("NameText"));
+	nameText->SetupAttachment(RootComponent);
 	SetCharacterMovementParaMeters();
 	SetCameraBoom();
 	SetFollowCamera();
@@ -45,6 +47,7 @@ void ACharacterController::BeginPlay()
 {
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = 300.f;
+	nameText->SetText(FText::FromString(UPlayerData::GetInstance()->playerName));
 }
 
 void ACharacterController::MoveForward(float value)

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
+#include "Components/EditableTextBox.h"
 #include "Components/CanvasPanel.h"
 #include "Kismet/GameplayStatics.h"
 #include "MainMenu.generated.h"
@@ -29,10 +31,21 @@ private:
 	void OnQuitButtonClicked();
 	UFUNCTION()
 	void OnOptionsBackButtonClicked();
+	UFUNCTION()
+	void OnHostButtonClicked();
+	UFUNCTION()
+	void OnJoinButtonClicked();
 
 	void SetupMainMenu();
 	void SetupSessionMenu();
 	void SetupOptionsMenu();
+	void ShowMainMenu();
+	void ShowSessionMenu();
+	void ShowOptionsMenu();
+	void ShowWarningText();
+	void HideWarningText();
+
+	void StartGame();
 
 	// Main Menu Elements
 	UButton *startButton;
@@ -43,6 +56,11 @@ private:
 	UButton *backButton;
 
 	// Session Menu Elements
+	UButton *hostButton;
+	UButton *joinButton;
+	UEditableTextBox *nameTextBox;
+	UTextBlock *warningTextBlock;
+	
 
 	UCanvasPanel *mainMenuPanel;
 	UCanvasPanel *sessionPanel;
