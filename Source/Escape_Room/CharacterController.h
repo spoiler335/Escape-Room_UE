@@ -20,7 +20,7 @@ class ESCAPE_ROOM_API ACharacterController : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ACharacterController();
-	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,7 +34,6 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
@@ -53,4 +52,10 @@ private:
 	void MoveRight(float value);
 	void StartSprint();
 	void StopSprint();
+
+	UFUNCTION(Server, Reliable)
+	void ServerStartSprint();
+
+	UFUNCTION(Server, Reliable)
+	void ServerStopSprint();
 };

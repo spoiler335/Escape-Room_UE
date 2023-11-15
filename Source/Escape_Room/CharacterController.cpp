@@ -9,6 +9,8 @@ ACharacterController::ACharacterController()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	SetReplicates(true);
+	SetReplicateMovement(true);
 	nameText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("NameText"));
 	nameText->SetupAttachment(RootComponent);
 	SetCharacterMovementParaMeters();
@@ -21,6 +23,16 @@ void ACharacterController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> 
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ACharacterController, sprintSpeed);
 	DOREPLIFETIME(ACharacterController, walkSpeed);
+}
+
+void ACharacterController::ServerStartSprint_Implementation()
+{
+	GetCharacterMovement()->MaxWalkSpeed = sprintSpeed;
+}
+
+void ACharacterController::ServerStopSprint_Implementation()
+{
+	GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
 }
 
 void ACharacterController::SetCharacterMovementParaMeters()
@@ -81,12 +93,30 @@ void ACharacterController::MoveRight(float value)
 void ACharacterController::StartSprint()
 {
 
-	GetCharacterMovement()->MaxWalkSpeed = sprintSpeed;
+	if (HasAuthority())
+	{
+		GetCharacterMovement()->MaxWalkSpeed = sprintSpeed;
+	}
+	else
+	{
+		// If not the server, call the server to start sprint
+		ServerStartSprint();
+		GetCharacterMovement()->MaxWalkSpeed = sprintSpeed;
+	}
 }
 
 void ACharacterController::StopSprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
+	if (HasAuthority())
+	{
+		GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
+	}
+	else
+	{
+		// If not the server, call the server to stop sprint
+		ServerStopSprint();
+		GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
+	}
 }
 
 // Called every frame
