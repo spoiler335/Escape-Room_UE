@@ -9,6 +9,7 @@
 #include "Components/EditableTextBox.h"
 #include "Components/CanvasPanel.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/GameUserSettings.h"
 #include "MainMenu.generated.h"
 
 /**
@@ -44,8 +45,13 @@ private:
 	void ShowOptionsMenu();
 	void ShowWarningText();
 	void HideWarningText();
+	void UpdateWindowMode();
+	void UpdateResolution();
+	void UpdateVSync();
+	void ApplySettings();
 
-	void StartGame();
+	void HostGame();
+	void JoinGame();
 
 	// Main Menu Elements
 	UButton *startButton;
@@ -54,6 +60,16 @@ private:
 
 	// Options Menu Elements
 	UButton *backButton;
+	UButton *applyButton;
+	
+	UButton *windowNext;
+	UButton *windowPrev;
+	UButton *resolutionNext;
+	UButton *resolutionPrev;
+	UButton *vsyncToggle;
+	
+	UTextBlock *windowText;
+	UTextBlock *resolutionText;
 
 	// Session Menu Elements
 	UButton *hostButton;
@@ -65,4 +81,9 @@ private:
 	UCanvasPanel *mainMenuPanel;
 	UCanvasPanel *sessionPanel;
 	UCanvasPanel *optionsPanel;
+
+	UGameUserSettings *MyGameUserSettings;
+
+	TArray<FIntPoint> SupportedResolutions;
+
 };

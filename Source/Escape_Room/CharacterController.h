@@ -20,10 +20,16 @@ class ESCAPE_ROOM_API ACharacterController : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ACharacterController();
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(Replicated)
+	float sprintSpeed = 600.f;
+	UPROPERTY(Replicated)
+	float walkSpeed = 300.f;
 
 public:
 	// Called every frame

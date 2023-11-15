@@ -8,10 +8,14 @@
 #include "PlayerData.h"
 #include "Engine.h"
 
-
 void UMainMenu::NativeConstruct()
 {
     Super::NativeConstruct();
+    MyGameUserSettings = GEngine->GameUserSettings;
+    SupportedResolutions.Add(FIntPoint(1920, 1080));
+    SupportedResolutions.Add(FIntPoint(1600, 900));
+    SupportedResolutions.Add(FIntPoint(1280, 720));
+    SupportedResolutions.Add(FIntPoint(1024, 768));
     GetOwningPlayer()->bShowMouseCursor = true;
     SetupMainMenu();
     SetupSessionMenu();
@@ -76,9 +80,59 @@ void UMainMenu::SetupOptionsMenu()
     if (optionsPanel)
     {
         backButton = Cast<UButton>(GetWidgetFromName(TEXT("BackButton")));
+        applyButton = Cast<UButton>(GetWidgetFromName(TEXT("ApplyButton")));
+        windowNext = Cast<UButton>(GetWidgetFromName(TEXT("WindowNext")));
+        windowPrev = Cast<UButton>(GetWidgetFromName(TEXT("WindowPrev")));
+        resolutionNext = Cast<UButton>(GetWidgetFromName(TEXT("ResolutionNext")));
+        resolutionPrev = Cast<UButton>(GetWidgetFromName(TEXT("ResolutionPrev")));
+        vsyncToggle = Cast<UButton>(GetWidgetFromName(TEXT("VSyncToggle")));
+        windowText = Cast<UTextBlock>(GetWidgetFromName(TEXT("ScreenSizeText")));
+        resolutionText = Cast<UTextBlock>(GetWidgetFromName(TEXT("ResolutionText")));
         if (backButton)
         {
             backButton->OnClicked.AddDynamic(this, &UMainMenu::OnOptionsBackButtonClicked);
+        }
+        if (applyButton)
+        {
+            applyButton->OnClicked.AddDynamic(this, &UMainMenu::ApplySettings);
+        }
+        if (windowNext)
+        {
+            windowNext->OnClicked.AddDynamic(this, &UMainMenu::UpdateWindowMode);
+        }
+        if (windowPrev)
+        {
+            windowPrev->OnClicked.AddDynamic(this, &UMainMenu::UpdateWindowMode);
+        }
+        if (resolutionNext)
+        {
+            resolutionNext->OnClicked.AddDynamic(this, &UMainMenu::UpdateResolution);
+        }
+        if (resolutionPrev)
+        {
+            resolutionPrev->OnClicked.AddDynamic(this, &UMainMenu::UpdateResolution);
+        }
+        if (vsyncToggle)
+        {
+            if (MyGameUserSettings->IsVSyncEnabled())
+            {
+                vsyncToggle->SetBackgroundColor(FLinearColor::Green);
+            }
+            else
+            {
+                vsyncToggle->SetBackgroundColor(FLinearColor::Red);
+            }
+            vsyncToggle->OnClicked.AddDynamic(this, &UMainMenu::UpdateVSync);
+        }
+        if (windowText)
+        {
+            FString windowMode = (MyGameUserSettings->GetFullscreenMode() == EWindowMode::Windowed) ? "Windowed" : "Fullscreen";
+            windowText->SetText(FText::FromString(windowMode));
+        }
+        if(resolutionText)
+        {
+            FString resolution = FString::FromInt(MyGameUserSettings->GetScreenResolution().X) + "X" + FString::FromInt(MyGameUserSettings->GetScreenResolution().Y);
+            resolutionText->SetText(FText::FromString(resolution));
         }
         optionsPanel->SetVisibility(ESlateVisibility::Hidden);
     }
@@ -117,11 +171,18 @@ void UMainMenu::HideWarningText()
     warningTextBlock->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UMainMenu::StartGame()
+void UMainMenu::HostGame()
 {
     UE_LOG(LogTemp, Warning, TEXT("StartGame"));
     GetOwningPlayer()->bShowMouseCursor = false;
-    UGameplayStatics::OpenLevel(GetWorld(), TEXT("Gameplay"));
+    UGameplayStatics::OpenLevel(GetWorld(), TEXT("Gameplay"), true, "listen");
+}
+
+void UMainMenu::JoinGame()
+{
+    UE_LOG(LogTemp, Warning, TEXT("JoinGame"));
+    GetOwningPlayer()->bShowMouseCursor = false;
+    UGameplayStatics::OpenLevel(GetWorld(), TEXT("127.0.0.1"));
 }
 
 void UMainMenu::OnStartButtonClicked()
@@ -158,8 +219,8 @@ void UMainMenu::OnHostButtonClicked()
 {
     if (nameTextBox && nameTextBox->GetText().ToString().Len() > 5)
     {
-        UPlayerData::GetInstance()->playerName = nameTextBox->GetText().ToString();  
-        StartGame();
+        UPlayerData::GetInstance()->playerName = nameTextBox->GetText().ToString();
+        HostGame();
     }
     else
     {
@@ -171,11 +232,72 @@ void UMainMenu::OnJoinButtonClicked()
 {
     if (nameTextBox && nameTextBox->GetText().ToString().Len() > 5)
     {
-        UPlayerData::GetInstance()->playerName = nameTextBox->GetText().ToString();  
-        StartGame();
+        UPlayerData::GetInstance()->playerName = nameTextBox->GetText().ToString();
+        JoinGame();
     }
     else
     {
         ShowWarningText();
+    }
+}
+
+void UMainMenu::UpdateWindowMode()
+{
+    if (MyGameUserSettings)
+    {
+
+        if (MyGameUserSettings->GetFullscreenMode() == EWindowMode::Fullscreen)
+        {
+            MyGameUserSettings->SetFullscreenMode(EWindowMode::Windowed);
+            windowText->SetText(FText::FromString("Windowed"));
+        }
+        else
+        {
+            MyGameUserSettings->SetFullscreenMode(EWindowMode::Fullscreen);
+            windowText->SetText(FText::FromString("Fullscreen"));
+        }
+    }
+}
+
+void UMainMenu::UpdateResolution()
+{
+    if (MyGameUserSettings)
+    {
+        // Get the current screen resolution and remove it from the array
+        FIntPoint CurrentResolution = MyGameUserSettings->GetScreenResolution();
+        SupportedResolutions.Remove(CurrentResolution);
+
+        // Get the next resolution in the array
+        FIntPoint NextResolution = SupportedResolutions[0];
+        resolutionText->SetText(FText::FromString(FString::FromInt(NextResolution.X) + "X" + FString::FromInt(NextResolution.Y)));
+
+        // Set the next resolution
+        MyGameUserSettings->SetScreenResolution(NextResolution);
+        SupportedResolutions.Add(CurrentResolution);
+    }
+}
+
+void UMainMenu::UpdateVSync()
+{
+    if (MyGameUserSettings)
+    {
+        if (MyGameUserSettings->IsVSyncEnabled())
+        {
+            MyGameUserSettings->SetVSyncEnabled(false);
+            vsyncToggle->SetBackgroundColor(FLinearColor::Red);
+        }
+        else
+        {
+            MyGameUserSettings->SetVSyncEnabled(true);
+            vsyncToggle->SetBackgroundColor(FLinearColor::Green);
+        }
+    }
+}
+
+void UMainMenu::ApplySettings()
+{
+    if (MyGameUserSettings)
+    {
+        MyGameUserSettings->ApplySettings(false);
     }
 }

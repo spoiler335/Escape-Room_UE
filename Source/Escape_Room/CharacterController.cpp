@@ -2,6 +2,7 @@
 
 #include "CharacterController.h"
 #include "PlayerData.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 ACharacterController::ACharacterController()
@@ -13,6 +14,13 @@ ACharacterController::ACharacterController()
 	SetCharacterMovementParaMeters();
 	SetCameraBoom();
 	SetFollowCamera();
+}
+
+void ACharacterController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ACharacterController, sprintSpeed);
+	DOREPLIFETIME(ACharacterController, walkSpeed);
 }
 
 void ACharacterController::SetCharacterMovementParaMeters()
@@ -46,7 +54,8 @@ void ACharacterController::SetFollowCamera()
 void ACharacterController::BeginPlay()
 {
 	Super::BeginPlay();
-	GetCharacterMovement()->MaxWalkSpeed = 300.f;
+
+	GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
 	nameText->SetText(FText::FromString(UPlayerData::GetInstance()->playerName));
 }
 
@@ -71,12 +80,13 @@ void ACharacterController::MoveRight(float value)
 
 void ACharacterController::StartSprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+
+	GetCharacterMovement()->MaxWalkSpeed = sprintSpeed;
 }
 
 void ACharacterController::StopSprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 300.f;
+	GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
 }
 
 // Called every frame
